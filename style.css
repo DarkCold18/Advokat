@@ -1,0 +1,877 @@
+/* === Основные настройки === */
+:root {
+    --bg-color: #111111; /* Глубокий черный, как на оригинале */
+    --text-color: #ffffff;
+    --gold-color: #c5a065;
+    --font-heading: 'Palatino Linotype', 'Times New Roman', serif;
+    --font-body: 'Calibri', 'Arial', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow-x: hidden; /* Важно: убирает горизонтальный скролл */
+    height: 100vh;
+    position: relative;
+}
+
+/* === Линии (от края до края) === */
+.line {
+    position: absolute;
+    left: 0;
+    width: 100%; /* Ровно ширина экрана */
+    height: 1px;
+    background: rgba(197, 160, 101, 0.3); /* Тусклое золото */
+    z-index: 2;
+}
+
+.top-line {
+    top: 100px;
+}
+
+.bottom-line {
+    bottom: 60px;
+}
+
+/* === Статуя (ФОН) === */
+.statue-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 55vw; /* Занимает 55% ширины экрана справа */
+    height: 100vh; /* На всю высоту */
+    z-index: 0; /* На самом заднем плане */
+    overflow: hidden;
+}
+
+.statue-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Картинка заполняет весь блок */
+    object-position: top center;
+}
+
+/* ЭТО ГЛАВНОЕ: Градиент поверх статуи, чтобы скрыть стык */
+.statue-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Плавный переход от цвета фона сайта (слева) к прозрачности (справа) */
+    background: linear-gradient(to right, var(--bg-color) 5%, rgba(0,0,0,0.2) 50%, transparent 100%);
+    z-index: 1; /* Поверх картинки */
+}
+
+/* === Контент === */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 100%;
+    position: relative;
+    z-index: 10; /* Текст поверх всего */
+    display: flex;
+    flex-direction: column;
+}
+
+/* === Шапка === */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px; /* Высота до линии */
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+}
+
+.nav a {
+    color: #ccc;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-left: 30px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    color: var(--gold-color);
+}
+
+/* === Центральный текст === */
+.main-content {
+    flex: 1; /* Занимает оставшееся место */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрирует по вертикали */
+    width: 50%; /* Текст только в левой половине */
+    padding-bottom: 60px; /* Отступ снизу чтобы не налипало на линию */
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 46px;
+    line-height: 1.2;
+    font-weight: normal;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Тень чтобы текст читался если залезет на статую */
+}
+
+.description p {
+    font-size: 18px;
+    color: #bbb;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* === Адаптация под телефон === */
+@media (max-width: 768px) {
+    .statue-background {
+        width: 100%; /* Статуя на весь экран */
+        opacity: 0.3; /* Затемняем её */
+    }
+    
+    .statue-overlay {
+        /* Градиент снизу вверх на телефоне */
+        background: linear-gradient(to top, var(--bg-color) 10%, transparent 100%);
+    }
+
+    .main-content {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* 1. Виправляємо ШАПКУ (щоб контакти не стрибали) */
+    .header {
+        flex-direction: column; /* Ставимо лого і меню стовпчиком */
+        height: auto; /* Висота підлаштовується */
+        padding-bottom: 20px;
+    }
+
+    .nav {
+        margin-top: 15px; /* Відступ меню від логотипу */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px; /* Рівні відступи між словами */
+    }
+
+    .nav a {
+        font-size: 14px; /* Трохи менший шрифт, щоб влазило */
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+    
+    .top-line { top: 140px; }
+}
+/* =========================================
+   СТИЛИ ДЛЯ СТРАНИЦЫ КОНТАКТОВ
+   ========================================= */
+
+/* Активная ссылка в меню */
+.nav a.active {
+    color: var(--gold-color);
+    border-bottom: 1px solid var(--gold-color);
+    padding-bottom: 5px;
+}
+
+/* Контейнер для контента контактов */
+.contacts-content {
+    width: 100%; /* На этой странице используем всю ширину контейнера */
+    justify-content: flex-start; /* Выравнивание сверху */
+    padding-top: 40px;
+}
+
+.contacts-content h1 {
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+/* Сетка: Слева инфо, Справа форма */
+.contacts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Две колонки */
+    gap: 60px;
+    width: 100%;
+    z-index: 5;
+}
+
+/* === Блок информации === */
+.info-item {
+    margin-bottom: 40px;
+}
+
+.info-item h3 {
+    color: var(--gold-color);
+    font-family: var(--font-heading);
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-item p {
+    color: #ddd;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.info-item a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.info-item a:hover {
+    color: var(--gold-color);
+}
+
+/* === Форма === */
+.contact-form {
+    background: rgba(255, 255, 255, 0.03); /* Едва заметная подложка */
+    padding: 40px;
+    border: 1px solid rgba(197, 160, 101, 0.2); /* Тонкая золотая рамка */
+    backdrop-filter: blur(5px); /* Размытие фона под формой */
+}
+
+.contact-form p {
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Поля ввода */
+input, textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #555; /* Линия снизу */
+    padding: 15px 0;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 16px;
+    transition: 0.3s;
+    outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #777;
+}
+
+input:focus, textarea:focus {
+    border-bottom-color: var(--gold-color); /* Золотая линия при нажатии */
+}
+
+/* Кнопка */
+.btn-submit {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--gold-color);
+    border: 1px solid var(--gold-color);
+    padding: 15px 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    font-family: var(--font-body);
+    font-weight: bold;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background: var(--gold-color);
+    color: #000; /* Черный текст на золотом фоне */
+}
+
+/* === Адаптивность контактов === */
+@media (max-width: 768px) {
+    .contacts-grid {
+        grid-template-columns: 1fr; /* Одна колонка */
+        gap: 40px;
+    }
+
+    .contacts-content h1 {
+        text-align: center;
+        font-size: 32px;
+    }
+
+    .contact-form {
+        padding: 25px; /* Чуть меньше отступы на телефоне */
+    }
+    
+    .info-item {
+        text-align: center; /* Центрируем текст контактов на телефоне */
+    }
+}
+/* =========================================
+   СТИЛИ ДЛЯ СТРАНИЦЫ "АДВОКАТ"
+   ========================================= */
+
+/* Настройка контейнера для этой страницы */
+.lawyer-page {
+    display: block; /* Отключаем центрирование flex из main-content, так как тут много блоков */
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 100px; /* Место для скролла снизу */
+    overflow-y: auto; /* Разрешаем прокрутку контента, если он не влезает */
+    scrollbar-width: none; /* Скрываем скроллбар (опционально) */
+}
+
+/* === Блок профиля (Фото + Текст) === */
+.lawyer-profile {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Фото адвоката */
+.lawyer-photo-wrapper {
+    flex: 0 0 350px; /* Фиксированная ширина фото */
+}
+
+.lawyer-img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--gold-color); /* Золотая рамка */
+    padding: 10px; /* Отступ от рамки до фото */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Текст справа от фото */
+.lawyer-info {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.6); /* Полупрозрачная подложка для читаемости на фоне статуи */
+    padding: 30px;
+    border-radius: 4px;
+    backdrop-filter: blur(3px);
+}
+
+.lawyer-info h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: var(--gold-color); /* Имя золотым */
+    text-shadow: 2px 2px 4px #000;
+}
+
+.subtitle {
+    font-size: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #555;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.bio-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+/* Кнопки ссылок */
+.lawyer-links {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-link {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 1px solid var(--gold-color);
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.btn-link:hover {
+    background: var(--gold-color);
+    color: #000;
+}
+
+/* === Секция сертификатов (Обновленная) === */
+.certificates-section h2 {
+    font-family: var(--font-heading);
+    color: #fff;
+    font-size: 32px;
+    margin-bottom: 40px;
+    border-left: 3px solid var(--gold-color);
+    padding-left: 20px;
+}
+
+/* === Секція сертифікатів (Оновлена: 1 колонка) === */
+.cert-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* БУЛО 1fr 1fr, СТАЛО 1fr (одна колонка) */
+    gap: 40px;
+    width: 100%;
+    max-width: 800px; /* Обмежуємо ширину, щоб на великих екранах це виглядало акуратно */
+    margin: 0 auto; /* Центруємо саму колонку */
+}
+
+.cert-item {
+    width: 100%;
+    height: 500px; /* Увеличили высоту, чтобы документ был крупным */
+    border: 1px solid #333;
+    position: relative;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.05);
+    padding: 20px; /* Отступ внутри рамки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cert-item:hover {
+    border-color: var(--gold-color);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.cert-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Показывает документ целиком */
+    object-position: center;
+}
+
+/* Адаптация для телефонов (чтобы там они становились в 1 колонку и не были мелкими) */
+@media (max-width: 768px) {
+    .cert-grid {
+        grid-template-columns: 1fr; /* На телефоне - одна колонка */
+    }
+    
+    .cert-item {
+        height: 350px; /* Чуть меньше высота на телефоне */
+    }
+}
+
+/* === Адаптивность для Адвоката === */
+@media (max-width: 900px) {
+    .lawyer-profile {
+        flex-direction: column; /* Фото сверху, текст снизу */
+        align-items: center;
+    }
+
+    .lawyer-photo-wrapper {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .lawyer-info {
+        width: 100%;
+        text-align: center;
+        background: none; /* На телефоне убираем подложку, так как фото не мешает */
+        padding: 0;
+    }
+
+    .lawyer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+.services-page {
+    width: 100%;
+    /* Висота екрану мінус шапка і трохи місця для нижньої лінії */
+    height: calc(100vh - 80px); 
+    
+    /* Вмикаємо прокрутку */
+    overflow-y: auto;
+    
+    /* БУЛО 140px, СТАЛО 110px -> піднімаємо заголовок вище */
+    padding-top: 110px; 
+    
+    /* Додаємо простір знизу, щоб останні картки не обрізались лінією */
+    padding-bottom: 100px; 
+    
+    text-align: center;
+    scrollbar-width: none; /* Ховаємо скролбар */
+}
+
+/* Ховаємо смугу прокрутки для Chrome/Safari */
+.services-page::-webkit-scrollbar {
+    display: none;
+}
+
+.services-intro {
+    color: #ccc;
+    margin-bottom: 50px;
+    font-size: 18px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Одна широка колонка замість двох */
+    gap: 20px; /* Менший відступ між блоками */
+    width: 100%;
+    max-width: 900px; /* Обмежуємо ширину, щоб не було занадто розтягнуто */
+    margin: 0 auto;
+}
+
+/* === Оновлена Картка-Посилання === */
+.service-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #444;
+    padding: 30px 40px;
+    min-height: auto;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Розподіляє: іконка зліва, кнопка справа */
+    
+    text-align: left;
+    transition: 0.3s ease;
+    backdrop-filter: blur(5px);
+    
+    /* Нові властивості для посилання */
+    text-decoration: none; /* Прибираємо підкреслення */
+    color: #fff; /* Колір тексту білий */
+    cursor: pointer; /* Курсор-рука */
+    position: relative;
+    overflow: hidden; /* Щоб ефекти не вилазили за межі */
+}
+
+/* При наведенні на картку */
+.service-card:hover {
+    border-color: var(--gold-color);
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateX(10px);
+}
+
+/* Текстовий блок всередині картки */
+.card-text {
+    flex: 1; /* Займає весь вільний простір */
+    margin-right: 20px;
+}
+
+.service-card h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 22px;
+    color: #fff; /* Завжди білий */
+}
+
+.service-card p {
+    margin-bottom: 0;
+    font-size: 16px;
+    color: #aaa;
+}
+
+/* === Кнопка, що зникає === */
+.service-btn {
+    white-space: nowrap;
+    padding: 10px 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    border: 1px solid var(--gold-color);
+    color: var(--gold-color);
+    border-radius: 4px; /* Трохи заокруглимо */
+    
+    /* МАГІЯ ЗНИКНЕННЯ */
+    opacity: 0; /* Повністю прозора (невидима) */
+    transform: translateX(20px); /* Зсунута вправо */
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Красива пружиниста анімація */
+}
+
+/* Показуємо кнопку, коли наводимо мишку на КАРТКУ */
+.service-card:hover .service-btn {
+    opacity: 1; /* Стає видимою */
+    transform: translateX(0); /* Повертається на місце */
+    background: var(--gold-color);
+    color: #000;
+}
+
+/* АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНУ */
+@media (max-width: 768px) {
+    /* 3. Виправляємо блоки послуг на телефоні */
+    .service-card {
+        flex-direction: column; /* Іконка зверху, текст знизу */
+        text-align: center;
+        padding: 30px 20px;
+        min-height: 300px; /* Повертаємо висоту блоку */
+        justify-content: center;
+    }
+    /* Додатково: затемнити фон карток сильніше, щоб текст читався на статуї */
+    .service-card {
+        background: rgba(0, 0, 0, 0.7); 
+    }
+    .card-text {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    /* Повертаємо кнопку "Детальніше" на телефонах */
+    .service-btn {
+        opacity: 1; 
+        transform: translateX(0);
+        margin-top: 20px;
+        margin-left: 0; /* Кнопка по центру */
+    }
+    /* Виправляємо СТОРІНКУ ПОСЛУГ */
+    /* Виправляємо СТОРІНКУ ПОСЛУГ (Мобільна версія) */
+    .services-page {
+        /* БУЛО 260px -> СТАВИМО 190px (золота середина) */
+        padding-top: 190px !important; 
+        
+        /* Дозволяємо сторінці скролитися як звичайно, щоб уникнути глюків */
+        height: auto !important; 
+        overflow-y: visible !important;
+        padding-bottom: 80px;
+    }
+    .service-icon {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    /* Виправлення кнопки "ЗВ'ЯЗАТИСЯ З АДВОКАТОМ" на телефоні */
+    .btn-submit {
+        white-space: normal !important; /* Дозволяємо тексту переноситися на новий рядок */
+        height: auto !important; /* Дозволяємо кнопці розтягуватися по висоті */
+        padding: 15px 20px; /* Трохи менші відступи */
+        line-height: 1.4; /* Відступ між рядками тексту */
+        text-align: center;
+        width: 100%; /* На всю ширину */
+        box-sizing: border-box;
+    }
+}
+/* === Виправляємо іконку === */
+.service-icon {
+    font-size: 45px;          /* Розмір іконки */
+    color: var(--gold-color);
+    
+    /* ГОЛОВНЕ ВИПРАВЛЕННЯ: */
+    margin-right: 30px;       /* Відступ від іконки до тексту */
+    min-width: 60px;          /* Резервуємо місце під іконку, щоб вона не налізала */
+    text-align: center;       /* Центруємо іконку в її зоні */
+    
+    flex-shrink: 0;           /* Забороняємо іконці сплющуватися */
+    display: flex;            /* Щоб іконка була рівно по центру своєї зони */
+    align-items: center;
+    justify-content: center;
+}
+/* =========================================
+   СТИЛИ ДЛЯ ВНУТРЕННИХ СТРАНИЦ УСЛУГ
+   ========================================= */
+
+.service-details-page {
+    padding-top: 120px;
+    padding-bottom: 100px;
+    max-width: 800px; /* Ограничиваем ширину текста */
+    margin-left: 0; /* Выравнивание по левому краю (или margin: 0 auto для центра) */
+}
+
+.back-link {
+    display: inline-block;
+    color: #888;
+    text-decoration: none;
+    margin-bottom: 30px;
+    transition: 0.3s;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.back-link:hover {
+    color: var(--gold-color);
+}
+
+.details-content h1 {
+    font-size: 40px;
+    color: #fff;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--gold-color);
+    padding-bottom: 20px;
+    display: inline-block;
+}
+
+.intro-text {
+    font-size: 20px;
+    color: #ddd;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* Красивый список */
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+/* Золотая галочка или черточка перед пунктом */
+.custom-list li::before {
+    content: '\f00c'; /* Код галочки FontAwesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--gold-color);
+}
+
+/* Блок CTA (Призыв к действию) */
+.cta-block {
+    background: rgba(197, 160, 101, 0.1);
+    border-left: 4px solid var(--gold-color);
+    padding: 30px;
+    margin-top: 40px;
+}
+
+.cta-block p {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .service-details-page {
+        padding-top: 100px;
+        text-align: left;
+    }
+    
+    .details-content h1 {
+        font-size: 28px;
+    }
+}
+/* =========================================
+   СТИЛИ ДЛЯ КАРТЫ (FULL WIDTH)
+   ========================================= */
+
+.full-width-map {
+    position: relative;
+    width: 100%;       /* На всю ширину экрана */
+    height: 500px;     /* Большая высота, чтобы было заметно */
+    margin-top: 80px;  /* Отступ от контента сверху */
+    border-top: 1px solid var(--gold-color); /* Золотая линия сверху карты */
+    border-bottom: 1px solid var(--gold-color); /* Золотая линия снизу карты */
+    overflow: hidden;
+}
+
+/* Затемнение карты (Инверсия цветов для стиля) */
+.full-width-map iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: grayscale(100%) invert(92%) contrast(83%); /* Темная карта */
+    transition: filter 0.5s ease;
+}
+
+/* При наведении карта становится цветной (по желанию) */
+.full-width-map:hover iframe {
+    filter: grayscale(0%); /* Убираем ч/б, возвращаем цвета */
+    filter: none;
+}
+
+/* Заголовок "МЫ НА КАРТЕ" поверх самой карты */
+.map-overlay-title {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8); /* Черная табличка */
+    color: var(--gold-color);
+    padding: 10px 30px;
+    font-family: var(--font-heading);
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--gold-color);
+    z-index: 5; /* Чтобы текст был поверх карты */
+    pointer-events: none; /* Чтобы сквозь текст можно было крутить карту */
+}
+
+
+
+/* =========================================
+   КНОПКА СКРОЛЛА К КАРТЕ (ИСПРАВЛЕННАЯ)
+   ========================================= */
+
+.scroll-to-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    /* Строку "group;" мы удалили, она ломала код */
+}
+
+.map-text {
+    font-family: var(--font-heading);
+    color: var(--gold-color);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.scroll-to-map:hover .map-text {
+    border-bottom-color: var(--gold-color);
+    color: #fff;
+}
+
+/* СТИЛЬ СТРЕЛКИ (БЕЗ КРУГА) */
+.arrow-bounce {
+    display: flex;
+    align-items: center;
+    color: var(--gold-color);
+    font-size: 30px; /* Размер стрелки */
+    margin-left: 10px;
+    
+    /* Анимация прыжка */
+    animation: bounce 2s infinite;
+}
+
+/* Анимация (если вдруг ее нет в коде) */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(10px);
+    }
+    60% {
+        transform: translateY(5px);
+    }
+}
