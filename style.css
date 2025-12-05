@@ -612,58 +612,7 @@ input:focus, textarea:focus {
     color: #000;
 }
 
-/* АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНУ */
-@media (max-width: 768px) {
-    /* 3. Виправляємо блоки послуг на телефоні */
-    .service-card {
-        flex-direction: column; /* Іконка зверху, текст знизу */
-        text-align: center;
-        padding: 30px 20px;
-        min-height: 300px; /* Повертаємо висоту блоку */
-        justify-content: center;
-    }
-    /* Додатково: затемнити фон карток сильніше, щоб текст читався на статуї */
-    .service-card {
-        background: rgba(0, 0, 0, 0.7); 
-    }
-    .card-text {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-    
-    /* Повертаємо кнопку "Детальніше" на телефонах */
-    .service-btn {
-        opacity: 1; 
-        transform: translateX(0);
-        margin-top: 20px;
-        margin-left: 0; /* Кнопка по центру */
-    }
-    /* Виправляємо СТОРІНКУ ПОСЛУГ */
-    /* Виправляємо СТОРІНКУ ПОСЛУГ (Мобільна версія) */
-    .services-page {
-        /* БУЛО 260px -> СТАВИМО 190px (золота середина) */
-        padding-top: 190px !important; 
-        
-        /* Дозволяємо сторінці скролитися як звичайно, щоб уникнути глюків */
-        height: auto !important; 
-        overflow-y: visible !important;
-        padding-bottom: 80px;
-    }
-    .service-icon {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-    /* Виправлення кнопки "ЗВ'ЯЗАТИСЯ З АДВОКАТОМ" на телефоні */
-    .btn-submit {
-        white-space: normal !important; /* Дозволяємо тексту переноситися на новий рядок */
-        height: auto !important; /* Дозволяємо кнопці розтягуватися по висоті */
-        padding: 15px 20px; /* Трохи менші відступи */
-        line-height: 1.4; /* Відступ між рядками тексту */
-        text-align: center;
-        width: 100%; /* На всю ширину */
-        box-sizing: border-box;
-    }
-}
+
 /* === Виправляємо іконку === */
 .service-icon {
     font-size: 45px;          /* Розмір іконки */
@@ -762,17 +711,7 @@ input:focus, textarea:focus {
     margin-bottom: 20px;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .service-details-page {
-        padding-top: 100px;
-        text-align: left;
-    }
-    
-    .details-content h1 {
-        font-size: 28px;
-    }
-}
+
 /* =========================================
    СТИЛИ ДЛЯ КАРТЫ (FULL WIDTH)
    ========================================= */
@@ -874,4 +813,172 @@ input:focus, textarea:focus {
     60% {
         transform: translateY(5px);
     }
+}
+/* === ОНОВЛЕНІ СТИЛІ ДЛЯ FACEBOOK ТА КАРТИ === */
+
+.social-item {
+    margin-top: 20px;       /* Відступ зверху від Email */
+    margin-bottom: 30px;    /* Відступ знизу до "Дивитися на карті" */
+    display: block;         /* Гарантує, що блок займе окремий рядок */
+}
+
+.fb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;        /* Розмір шрифту як у тексту контактів */
+    color: var(--gold-color);
+    text-decoration: none;
+    font-family: var(--font-body); /* Шрифт як у основного тексту */
+    transition: 0.3s;
+}
+
+.fb-link i {
+    font-size: 24px;        /* Іконка трохи більша */
+}
+
+.fb-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(197, 160, 101, 0.5);
+}
+
+/* Оновлюємо відступ для стрілки, щоб вона не була занадто далеко */
+.scroll-to-map {
+    margin-top: 0;          /* Прибираємо зайвий відступ, бо його дає social-item */
+}
+
+
+
+
+/* =========================================
+   ЄДИНИЙ БЛОК АДАПТАЦІЇ ДЛЯ ТЕЛЕФОНУ (ФІНАЛ)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. ШАПКА: Фіксуємо намертво зверху */
+    .header {
+        position: fixed !important; /* Головне: шапка стоїть, контент їде */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999; /* Поверх усього */
+        background-color: #111111 !important; /* Непрозорий чорний фон */
+        border-bottom: 1px solid rgba(197, 160, 101, 0.3); /* Лінія для краси */
+        
+        flex-direction: column;
+        height: auto;
+        padding-bottom: 15px;
+        padding-top: 10px;
+    }
+
+    /* Меню навігації */
+    .nav {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .nav a {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    /* 2. КОНТЕЙНЕР ПОСЛУГ: Скролиться ПІД шапкою */
+    .services-page {
+        position: relative;
+        z-index: 1;
+        
+        /* Займає весь екран */
+        height: 100vh !important;
+        
+        /* Скрол всередині цього блоку */
+        overflow-y: auto !important;
+        
+        /* ВЕЛИЧЕЗНИЙ ВІДСТУП ЗВЕРХУ: 
+           Це опускає перший блок і заголовок вниз, щоб вони вилізли з-під шапки */
+        padding-top: 260px !important; 
+        
+        padding-bottom: 100px;
+        width: 100%;
+    }
+
+    /* 3. АДАПТАЦІЯ КАРТОК (Вертикальний вигляд) */
+    .services-grid {
+        display: flex;
+        flex-direction: column; /* Блоки один під одним */
+        gap: 20px;
+        width: 100%;
+        padding-bottom: 50px;
+    }
+
+    .service-card {
+        flex-direction: column !important; /* Іконка зверху, текст знизу */
+        text-align: center;
+        padding: 40px 20px;
+        min-height: auto;
+        justify-content: center;
+        align-items: center;
+        
+        /* Прозорість */
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        border-radius: 8px;
+    }
+
+    /* Виправляємо поламані іконки */
+    .service-icon {
+        margin-right: 0 !important;
+        margin-bottom: 20px !important;
+        min-width: auto !important;
+        font-size: 50px;
+    }
+    
+    .card-text {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Кнопка "Детальніше" - показуємо завжди */
+    .service-btn {
+        opacity: 1 !important; 
+        transform: translateX(0) !important;
+        margin-left: 0;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    /* 4. ІНШІ СТОРІНКИ (Теж додаємо відступ, щоб не ховалися) */
+    .service-details-page, 
+    .contacts-content,
+    .lawyer-page {
+        /* Теж великий відступ для інших сторінок */
+        padding-top: 240px !important; 
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* 5. Кнопка "Зв'язатися" (виправляємо текст) */
+    .btn-submit {
+        white-space: normal !important;
+        height: auto !important;
+        padding: 15px 10px !important;
+        line-height: 1.3;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    /* Дрібні правки шрифтів */
+    h1 { font-size: 28px; margin-bottom: 20px; }
+    
+    /* Карта та сертифікати */
+    .map-section h2 { text-align: center; border-left: none; padding-left: 0; }
+    .map-container { height: 300px; }
+    .cert-grid { grid-template-columns: 1fr; }
+    .cert-item { height: 350px; }
+    
+    /* Лінія під шапкою теж з'їжджає вниз */
+    .top-line { top: 200px !important; }
 }
