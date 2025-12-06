@@ -846,32 +846,76 @@ input:focus, textarea:focus {
 .scroll-to-map {
     margin-top: 0;          /* Прибираємо зайвий відступ, бо його дає social-item */
 }
+/* =========================================
+   КНОПКА GOOGLE MAPS (НОВА)
+   ========================================= */
 
+.map-btn {
+    display: inline-flex;          /* Щоб іконка і текст були в рядок */
+    align-items: center;           /* Центрування по вертикалі */
+    justify-content: center;       /* Центрування по горизонталі */
+    gap: 12px;                     /* Відступ між іконкою і текстом */
+    
+    margin-top: 10px;              /* Відступ зверху */
+    padding: 15px 35px;            /* Розмір кнопки (внутрішні відступи) */
+    
+    background: transparent;       /* Прозорий фон */
+    border: 1px solid var(--gold-color); /* Золота рамка */
+    color: var(--gold-color);      /* Золотий текст */
+    
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;         /* Прибираємо підкреслення */
+    letter-spacing: 1.5px;
+    
+    transition: all 0.3s ease;     /* Плавна анімація */
+    cursor: pointer;
+    border-radius: 4px;            /* Легке заокруглення кутів */
+    width: auto;                   /* Ширина по контенту */
+}
+
+/* Ефект при наведенні */
+.map-btn:hover {
+    background: var(--gold-color); /* Фон стає золотим */
+    color: #000;                   /* Текст стає чорним */
+    box-shadow: 0 0 15px rgba(197, 160, 101, 0.4); /* Світіння */
+    transform: translateY(-2px);   /* Легкий підйом вгору */
+}
+
+/* Стиль іконки всередині кнопки */
+.map-btn i {
+    font-size: 18px;
+}
 
 
 
 /* =========================================
-   ЄДИНИЙ БЛОК АДАПТАЦІЇ ДЛЯ ТЕЛЕФОНУ (ФІНАЛ)
+   ЄДИНИЙ БЛОК АДАПТАЦІЇ ДЛЯ ТЕЛЕФОНУ (ВИПРАВЛЕНИЙ)
    ========================================= */
 @media (max-width: 768px) {
     
-    /* 1. ШАПКА: Фіксуємо намертво зверху */
+    /* 1. ШАПКА: Компактна і фіксована */
     .header {
-        position: fixed !important; /* Головне: шапка стоїть, контент їде */
+        position: fixed !important;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 9999; /* Поверх усього */
-        background-color: #111111 !important; /* Непрозорий чорний фон */
-        border-bottom: 1px solid rgba(197, 160, 101, 0.3); /* Лінія для краси */
-        
+        z-index: 9999;
+        background-color: #111111 !important; /* Чорний фон, щоб текст не просвічувався */
+        border-bottom: 1px solid rgba(197, 160, 101, 0.3);
         flex-direction: column;
-        height: auto;
-        padding-bottom: 15px;
-        padding-top: 10px;
+        height: auto; /* Висота автоматична */
+        padding: 15px 0;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.8);
     }
 
-    /* Меню навігації */
+    .logo img {
+        height: 45px; /* Зменшуємо лого, щоб не займало пів екрану */
+        width: auto;
+    }
+
     .nav {
         margin-top: 10px;
         display: flex;
@@ -879,106 +923,136 @@ input:focus, textarea:focus {
         justify-content: center;
         gap: 15px;
     }
+
     .nav a {
-        font-size: 14px;
+        font-size: 13px; /* Шрифт меню менше */
         margin: 0;
     }
 
-    /* 2. КОНТЕЙНЕР ПОСЛУГ: Скролиться ПІД шапкою */
-    .services-page {
-        position: relative;
-        z-index: 1;
-        
-        /* Займає весь екран */
-        height: 100vh !important;
-        
-        /* Скрол всередині цього блоку */
-        overflow-y: auto !important;
-        
-        /* ВЕЛИЧЕЗНИЙ ВІДСТУП ЗВЕРХУ: 
-           Це опускає перший блок і заголовок вниз, щоб вони вилізли з-під шапки */
-        padding-top: 260px !important; 
-        
-        padding-bottom: 100px;
+    /* 2. ЗАГАЛЬНІ НАЛАШТУВАННЯ КОНТЕНТУ */
+    /* Це виштовхує весь контент з-під шапки */
+    .services-page, 
+    .service-details-page, 
+    .lawyer-page, 
+    .contacts-content,
+    .main-content {
+        padding-top: 160px !important; /* Головний відступ! */
+        padding-bottom: 80px;
         width: 100%;
+        height: auto !important; /* Дозволяємо сторінці розтягуватися */
+        overflow-y: visible !important; /* Стандартний скрол */
     }
 
-    /* 3. АДАПТАЦІЯ КАРТОК (Вертикальний вигляд) */
+    /* Лінії прибираємо на телефоні, вони тільки заважають */
+    .line { display: none; }
+
+    /* 3. ВИПРАВЛЕННЯ ЗАГОЛОВКІВ (Щоб не було "РОЗІР ВАННЯ") */
+    h1 {
+        font-size: 28px !important; /* Примусово менший розмір */
+        line-height: 1.3;
+        margin-bottom: 30px;
+        word-wrap: normal; /* Забороняємо розривати слова посередині */
+        text-align: center;
+        padding: 0 10px; /* Відступи з боків */
+    }
+
+    #page-title {
+        font-size: 24px !important; /* Для сторінок послуг ще менше */
+        border-bottom: none; /* Прибираємо лінію під заголовком, якщо вона ламає вигляд */
+    }
+
+    /* 4. АДАПТАЦІЯ КАРТОК ПОСЛУГ (SERVICES) */
     .services-grid {
         display: flex;
-        flex-direction: column; /* Блоки один під одним */
-        gap: 20px;
-        width: 100%;
-        padding-bottom: 50px;
+        flex-direction: column;
+        gap: 25px;
+        padding: 0 20px;
     }
 
     .service-card {
-        flex-direction: column !important; /* Іконка зверху, текст знизу */
-        text-align: center;
-        padding: 40px 20px;
-        min-height: auto;
-        justify-content: center;
-        align-items: center;
-        
-        /* Прозорість */
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        background: rgba(20, 20, 20, 0.95) !important; /* Темна підкладка */
+        border: 1px solid rgba(197, 160, 101, 0.3);
+        padding: 30px 20px;
         border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
 
-    /* Виправляємо поламані іконки */
     .service-icon {
         margin-right: 0 !important;
         margin-bottom: 20px !important;
-        min-width: auto !important;
-        font-size: 50px;
+        font-size: 45px !important;
     }
-    
+
     .card-text {
-        margin-right: 0;
-        margin-bottom: 20px;
+        margin-right: 0 !important;
+        margin-bottom: 25px;
         width: 100%;
     }
-
-    /* Кнопка "Детальніше" - показуємо завжди */
+    
+    /* Кнопка в картці */
     .service-btn {
-        opacity: 1 !important; 
-        transform: translateX(0) !important;
-        margin-left: 0;
+        opacity: 1 !important;
+        transform: none !important;
         display: inline-block;
-        margin-top: 10px;
-    }
-
-    /* 4. ІНШІ СТОРІНКИ (Теж додаємо відступ, щоб не ховалися) */
-    .service-details-page, 
-    .contacts-content,
-    .lawyer-page {
-        /* Теж великий відступ для інших сторінок */
-        padding-top: 240px !important; 
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    /* 5. Кнопка "Зв'язатися" (виправляємо текст) */
-    .btn-submit {
-        white-space: normal !important;
-        height: auto !important;
-        padding: 15px 10px !important;
-        line-height: 1.3;
-        font-size: 14px;
         width: 100%;
+        padding: 12px 0;
+        background: transparent;
+        color: var(--gold-color);
+        border: 1px solid var(--gold-color);
     }
 
-    /* Дрібні правки шрифтів */
-    h1 { font-size: 28px; margin-bottom: 20px; }
+    /* 5. ВИПРАВЛЕННЯ ТЕКСТУ ВНУТРІШНІХ СТОРІНОК */
+    .details-content {
+        padding: 0 20px;
+        text-align: left; /* Текст читати краще зліва */
+    }
+
+    .intro-text {
+        font-size: 16px;
+        text-align: justify; /* Вирівнювання тексту */
+    }
     
-    /* Карта та сертифікати */
-    .map-section h2 { text-align: center; border-left: none; padding-left: 0; }
-    .map-container { height: 300px; }
-    .cert-grid { grid-template-columns: 1fr; }
-    .cert-item { height: 350px; }
+    .custom-list li {
+        font-size: 16px;
+        padding-left: 25px;
+    }
+
+    /* 6. ФОН (Статуя) */
+    .statue-background {
+        width: 100%;
+        opacity: 0.15; /* Робимо статую дуже тьмяною, щоб текст читався */
+        position: fixed;
+        z-index: -1;
+    }
     
-    /* Лінія під шапкою теж з'їжджає вниз */
-    .top-line { top: 200px !important; }
+    .statue-overlay {
+        background: #111; /* Додаткове затемнення */
+        opacity: 0.8;
+    }
+    .map-btn {
+        width: 100%;       /* На телефоні кнопка на всю ширину */
+        padding: 18px 0;   /* Більша висота для зручності натискання */
+        font-size: 16px;
+    }
+    /* === ИСПРАВЛЕНИЕ КНОПКИ ВНИЗУ (CTA) === */
+    .cta-block .btn-submit {
+        display: flex !important;       /* Используем Flexbox для центрирования */
+        align-items: center;
+        justify-content: center;
+        
+        height: auto !important;        /* Разрешаем кнопке расти в высоту */
+        min-height: 60px;               /* Минимальная высота, чтобы было красиво */
+        padding: 15px 10px !important;  /* Отступы внутри */
+        
+        white-space: normal !important; /* Разрешаем перенос текста */
+        line-height: 1.4 !important;    /* Расстояние между строками текста */
+        font-size: 14px !important;
+        text-align: center;
+        width: 100%;
+        
+        margin-top: 20px;               /* Отступ от текста сверху */
+    }
 }
